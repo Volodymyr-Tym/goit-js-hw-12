@@ -2,22 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>JS homework 12</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
+
   <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
+    <section class="gallery-section">
+      <form class="search-form js-form">
+        <input
+          class="search-form-input"
+          name="search"
+          type="text"
+          placeholder="Search images..."
+        />
+        <button class="search-form-btn" type="submit">Search</button>
+      </form>
 
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
-    </main>
+      <span class="loader js-loader is-hidden"></span>
 
-    <load src="./partials/footer.html" />
+      <ul class="gallery js-gallery"></ul>
+    </section>
 
-    <script type="module" src="main.js"></script>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
