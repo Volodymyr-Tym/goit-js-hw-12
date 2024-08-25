@@ -1,6 +1,6 @@
-/* @import url('./reset.css');
+@import url('./reset.css');
 @import url('izitoast/dist/css/iziToast.css');
-@import url('simplelightbox/dist/simple-lightbox.min.css'); */
+@import url('simplelightbox/dist/simple-lightbox.min.css');
 
 body {
   font-family: 'Montserrat', sans-serif;
@@ -34,7 +34,6 @@ body {
 .search-form {
   display: flex;
   column-gap: 8px;
-  margin-bottom: 32px;
 }
 
 .search-form-input {
@@ -70,7 +69,7 @@ body {
   border: 1px solid #4e75ff;
 }
 
-.search-form-btn {
+.btn-style {
   border-radius: 8px;
   padding: 8px 16px;
   background-color: #4e75ff;
@@ -85,13 +84,14 @@ body {
   transition: background-color 250ms linear;
 }
 
-.search-form-btn:hover,
-.search-form-btn:focus {
+.btn-style:hover,
+.btn-style:focus {
   outline: transparent;
   background-color: #6c8cff;
 }
 
 .gallery {
+  margin-top: 32px;
   max-width: 1128px;
   width: 100%;
   display: flex;
@@ -143,14 +143,15 @@ body {
   color: #2e2f42;
 }
 
+.load-more-js {
+  margin-top: 20px;
+}
+
 /* =============================================
  !           LOADER STYLES
 ============================================ */
-.loader.is-hidden {
-  display: none;
-}
-
 .loader {
+  margin-top: 20px;
   display: block;
   position: relative;
   height: 4px;
@@ -196,4 +197,8 @@ body {
       no-repeat 50% 50%,
     linear-gradient(180deg, #f0000025, #f0000025);
   background-size: 15px;
+}
+
+.is-hidden {
+  display: none;
 }
