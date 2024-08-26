@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery infinite scroll</title>
+    <script type="module" crossorigin src="/goit-js-hw-12/gallery-infinite-scroll.js"></script>
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-CRwkH7JT.js">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/pixabay-api-DHOET29h.js">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/styles-DApdUNmg.css">
+  </head>
+  <body>
+    <a href="./index.html">Go back</a>
+
+    <section class="gallery-section">
+      <form class="search-form js-form">
+        <input
+          class="search-form-input"
+          name="search"
+          type="text"
+          placeholder="Search images..."
+        />
+        <button class="btn-style search-form-btn" type="submit">Search</button>
+      </form>
+
+      <ul class="gallery js-gallery"></ul>
+
+      <div class="observed-el-js"></div>
+
+      <span class="loader js-loader is-hidden"></span>
+    </section>
+
+  </body>
+</html>
