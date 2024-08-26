@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://pixabay.com';
 
-export const fetchImages = (serchQuery, page) => {
+export const fetchImages = async (serchQuery, page) => {
   const axiosOptions = {
     params: {
       key: '45502477-f90d28a95f79ee2acbc927104',

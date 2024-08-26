@@ -1,28 +1,78 @@
 import iziToast from 'izitoast';
 import SimpleLightbox from 'simplelightbox';
-import { createGalleryImageTemplate } from './js/render-functions';
-import { fetchImages } from './js/pixabay-api';
+import { createGalleryImageTemplate } from './render-functions';
+import { fetchImages } from './pixabay-api';
 
 const form = document.querySelector('form.js-form');
 const gallery = document.querySelector('ul.js-gallery');
 const preLoader = document.querySelector('span.js-loader');
-const loadMoreBtn = document.querySelector('.load-more-js');
+const observedEl = document.querySelector('.observed-el-js');
 
 let currentPage = 1;
 let totalPages = 0;
 let inputValue = '';
-let galleryImageHeight = 0;
 
 const newGalleryBox = new SimpleLightbox('ul.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
 
+const observerOptions = {
+  root: null,
+  rootMargin: '0px 0px 200px 0px',
+  treshhold: 1,
+};
+const observerCallBack = async entries => {
+  if (entries[0].isIntersecting) {
+    preLoader.classList.remove('is-hidden');
+    console.log(entries);
+    try {
+      currentPage++;
+
+      const { data } = await fetchImages(inputValue, currentPage);
+
+      const drawGallery = data.hits
+        .map(imageInfo => createGalleryImageTemplate(imageInfo))
+        .join('');
+
+      gallery.insertAdjacentHTML('beforeend', drawGallery);
+      newGalleryBox.refresh();
+
+      if (currentPage === totalPages) {
+        observer.disconnect();
+        iziToast.info({
+          message: `We're sorry, but you've reached the end of search results.`,
+          messageSize: '16',
+          position: 'topRight',
+          timeout: false,
+        });
+        currentPage = 1;
+        return;
+      }
+    } catch ({ response: err }) {
+      iziToast.error({
+        title: 'Ooops',
+        titleSize: '18',
+        message: err.data,
+        messageSize: '18',
+        position: 'center',
+        timeout: false,
+        progressBar: false,
+        overlay: true,
+        overlayColor: 'rgba(0, 0, 0, 0.5)',
+      });
+    } finally {
+      preLoader.classList.add('is-hidden');
+    }
+  }
+};
+
+const observer = new IntersectionObserver(observerCallBack, observerOptions);
+
 const onFormSubmit = async event => {
   try {
     event.preventDefault();
     gallery.innerHTML = '';
-    loadMoreBtn.classList.add('is-hidden');
     preLoader.classList.remove('is-hidden');
 
     inputValue = form.search.value.trim();
@@ -62,11 +112,10 @@ const onFormSubmit = async event => {
 
     gallery.insertAdjacentHTML('beforeend', drawGallery);
 
-    const galleryImage = gallery.querySelector('li');
-    galleryImageHeight = galleryImage.getBoundingClientRect().height;
-
     if (totalPages > 1) {
-      loadMoreBtn.classList.remove('is-hidden');
+      observer.observe(observedEl);
+    } else {
+      observer.disconnect();
     }
 
     newGalleryBox.refresh();
@@ -88,49 +137,4 @@ const onFormSubmit = async event => {
   }
 };
 
-const onLoadMoreBtnClick = async event => {
-  preLoader.classList.remove('is-hidden');
-
-  try {
-    currentPage++;
-
-    const { data } = await fetchImages(inputValue, currentPage);
-
-    const drawGallery = data.hits
-      .map(imageInfo => createGalleryImageTemplate(imageInfo))
-      .join('');
-
-    gallery.insertAdjacentHTML('beforeend', drawGallery);
-    newGalleryBox.refresh();
-
-    scrollBy({ top: galleryImageHeight * 2, behavior: 'smooth' });
-
-    if (currentPage === totalPages) {
-      loadMoreBtn.classList.add('is-hidden');
-      iziToast.info({
-        message: `We're sorry, but you've reached the end of search results.`,
-        messageSize: '16',
-        position: 'topRight',
-        timeout: false,
-      });
-      return;
-    }
-  } catch ({ response: err }) {
-    iziToast.error({
-      title: 'Ooops',
-      titleSize: '18',
-      message: err.data,
-      messageSize: '18',
-      position: 'center',
-      timeout: false,
-      progressBar: false,
-      overlay: true,
-      overlayColor: 'rgba(0, 0, 0, 0.5)',
-    });
-  } finally {
-    preLoader.classList.add('is-hidden');
-  }
-};
-
 form.addEventListener('submit', onFormSubmit);
-loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);

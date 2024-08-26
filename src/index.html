@@ -8,25 +8,18 @@
   </head>
 
   <body>
-    <section class="gallery-section">
-      <form class="search-form js-form">
-        <input
-          class="search-form-input"
-          name="search"
-          type="text"
-          placeholder="Search images..."
-        />
-        <button class="btn-style search-form-btn" type="submit">Search</button>
-      </form>
+    <ul class="main-menu-list">
+      <li class="menu-list-item">
+        <a class="list-item-link" href="./gallery-load-more.html">
+          Gallery with button</a
+        >
+      </li>
 
-      <ul class="gallery js-gallery"></ul>
-
-      <button class="btn-style load-more-js is-hidden" type="button">Load more</button>
-
-      <span class="loader js-loader is-hidden"></span>
-      </form>
-    </section>
-
-    <script type="module" src="./main.js"></script>
+      <li class="menu-list-item">
+        <a class="list-item-link" href="./gallery-infinite-scroll.html">
+          Gallery with infinite sclolling</a
+        >
+      </li>
+    </ul>
   </body>
 </html>
